@@ -1,0 +1,16 @@
+lxc.apparmor.profile = generated
+lxc.apparmor.allow_nesting = 1
+
+lxc.rootfs.path = lvm:/dev/lxc/{{nome}}.{{nick}}
+lxc.include = /usr/share/lxc/config/debian.common.conf
+lxc.tty.max = 4
+lxc.uts.name = {{nome}}.{{nick}}
+lxc.arch = amd64
+lxc.pty.max = 1024
+lxc.net.0.type = veth
+lxc.net.0.hwaddr = 00:16:3e:5f:xx:xx
+lxc.net.0.link = {{rede}}
+lxc.net.0.flags = up
+
+lxc.net.0.ipv4.address = {{ipGenerada}}/16
+lxc.net.0.ipv4.gateway = 172.20.0.1

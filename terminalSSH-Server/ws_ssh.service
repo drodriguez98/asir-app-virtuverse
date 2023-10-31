@@ -1,0 +1,12 @@
+[Unit]
+Description=WebSocket para Conexión SSH vía Web usando Xterm.js
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/php /var/www/terminalSSH-Server/bin/websocket.php
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

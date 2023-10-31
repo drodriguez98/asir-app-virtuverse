@@ -1,0 +1,30 @@
+<!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+
+      <link rel="stylesheet" href="terminalSSH/lib/xterm/xterm.css" />
+      <link rel="stylesheet" href="terminalSSH/terminalWeb.css" />
+      <script src="terminalSSH/lib/xterm/xterm.js"></script>
+      <script src="terminalSSH/lib/xterm/addons/attach/attach.js"></script>
+      <script src="terminalSSH/lib/xterm/addons/fit/fit.js"></script>
+      <script src="terminalSSH/terminalWeb.js"></script>
+    </head>
+    <body>
+        <div class="terminalbox"> 
+           <div id="terminal"></div>
+           <button class="sshterminal" type="button" onclick="ConnectServer()">Conectar</button>
+        </div>
+        <!-- En sshd_config no servidor que queremos acceder por chave privada    PubkeyAcceptedKeyTypes +ssh-rsa-->
+        
+        <button onclick="setServer('HOST1',22,'user','pass1')">HOST1</button>
+        <button onclick="setServer('192.168.122.1',22,'user','pass2')">HOST2</button>
+
+        
+      <script>
+   //setSSHWebSocket("<HOSTNAME>",<PORT>);
+        showTerminal("terminal");
+	//setServer("<HOSTNAME>",<PORT>,"<USERNAME>","<PASSWORD>");
+      </script>
+    </body>
+  </html>

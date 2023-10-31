@@ -1,0 +1,54 @@
+EN PRIMEIRO LUGAR, DEBEMOS LANZAR O SERVIDOR NUN EQUIPO DA REDE, NORMALMENTE O SERVIDOR WEB
+PERO PODE SER OUTRO DISTINTO. 
+
+Na máquina que se vai a utilizar para o acceso SSH (normalmente o propio servidor Web) instalamos onde decidamos a carpeta 
+terminalSSH-Server. Ahí temos un servicio de systemctl que nos vale para lanzar o servidor.
+
+editamos o servicio systemctl (ws_ssh.service) e adaptamos a liña ExecStart=/usr/bin/php /ruta/instalación/bin/websocket.php
+para que apunte ao noso script websocket.php 
+
+Podemos editar o ficheiro websocket.php para cambiar o porto do 8080 a outro si queremos
+
+logo, 
+1. creamos como root un enlace symbólico:  ln -s ruta/de/instalacion/ws_ssh.service /etc/systemd/system
+2. habilitamos o servizo: systemctl enable ws_ssh
+3. o iniciamos: systemctl start ws_ssh
+
+NA PAXINA WEB ONDE QUEREMOS INCRUSTAR O TERMINAL:
+   - Examinar o exemplo en index.html
+      Dentro do raíz onde se atopa o HTML debe atoparse a carpeta terminalSSH (ou adaptar os enlaces no HTML)
+   
+   
+      A cabeceira <head> debe incluír:
+         <meta charset="utf-8" />
+
+         <link rel="stylesheet" href="terminalSSH/lib/xterm/xterm.css" />
+         <link rel="stylesheet" href="terminalSSH/terminalWeb.css" />
+         <script src="terminalSSH/lib/xterm/xterm.js"></script>
+         <script src="terminalSSH/lib/xterm/addons/attach/attach.js"></script>
+         <script src="terminalSSH/lib/xterm/addons/fit/fit.js"></script>
+         <script src="terminalSSH/terminalWeb.js"></script>
+ 
+  - Se debe configurar a URL do servidor mediante setSSHWebSocket("<HOSTNAME>",PORTO);
+  donde o HOSTNAME é a máquina onde se lanzou o servidor, que debe ter acceso SSH aos equipos
+  que se queira poder acceder. O porto, e o configurado cando se lanzou o servidor (8080).
+  Si non se especifica, se collerá por defecto o porto 8080 e o host do que cargamos a páxina web.
+ 
+  - Se debe preparar unha área na páxina Web onde incrustar o terminal. O
+    tamaño e posición desa área se pode poñer con CSS. Xa existen as clases "terminalbox" e "terminal".
+    Un exemplo podería ser:
+         <div class="terminalbox"> 
+           <div id="terminal"></div>
+           <button class="sshterminal" type="button" onclick="ConnectServer()">Conectar</button>
+        </div>
+   - O botón realizaría a conexión co host co que desexamos conectar por SSH. Este host debe configurarse antes
+   mediante a función javascript setServer("<HOSTNAME>",<PORT>"<USERNAME>","<PASSWORD>","<PRIVKEY">);, pero antes debemos poñer o terminal exeecutando
+   a función javascript showTerminal("terminal"); sendo "terminal" o id do div onde queremos incrustar o terminal.
+   Si especificamos unha PRIVKEY (non é obrigatorio) se ignora a PASSWORD e se intenta acceder mediante chave pública.
+   
+   - Unha idea e que na carga da páxina a última instrución sexa un 
+       <script>
+        showTerminal("terminal");
+      </script>
+   
+   Mediante outros medios (botóns, enlaces, clicks en elementos.... se pode facer o setServer axeitado. (ver index.html)
